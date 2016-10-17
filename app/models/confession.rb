@@ -1,4 +1,4 @@
-class Confession < ActiveRecord::Base
+class Confession < ApplicationRecord
 
   enum status: [:pending, :accepted, :reject]
 

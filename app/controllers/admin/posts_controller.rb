@@ -17,6 +17,7 @@ class Admin::PostsController < Admin::BaseController
   def create
     if @post.save
       flash[:success] = t ".success"
+      NotificationBroadcastJob.perform_now @post
       redirect_to admin_posts_path
     else
       @search = Post.all.ransack params[:q]

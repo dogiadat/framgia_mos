@@ -35,3 +35,5 @@ categories:
 avatar_admin: "200x200"
 confessions:
     per_page: 5
+search:
+  per_page: 10

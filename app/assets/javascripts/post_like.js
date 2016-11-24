@@ -7,6 +7,7 @@ $(document).on('click', '.btn-like', function(e){
     data: {id: $('.show-post').data('post'), commit: 'post'},
     dataType: 'json',
     success: function(data){
+      console.log(data);
       if(data.type == "like")
         $('#post_likes').html('Liked ('+ data.size + ')');
       else

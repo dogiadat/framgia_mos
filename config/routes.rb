@@ -24,12 +24,15 @@ Rails.application.routes.draw do
     post "accept_post", to: "accept_post#update"
     resources :statistics, only: :index
     resources :categories
-    resources :users, only: [:index, :update]
+    resources :users, only: [:index, :update] do
+      resource :assign_roles
+    end
     resources :posts, except: :new
     resources :advertisments
     resources :confessions
     devise_for :users, controllers: {sessions: "admin/sessions"},
       path: "", path_names: {sign_in: "login", sign_out: "logout",
       sign_up: "register"}
+    resources :roles_groups
   end
 end

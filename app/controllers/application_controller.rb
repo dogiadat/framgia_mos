@@ -3,12 +3,17 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :load_category_roots, :load_favourite_posts, :load_recent_posts
 
-  rescue_from Exception do |exception|
-    flash[:warning] = exception.message
-    redirect_to root_url
-  end
+  # rescue_from Exception do |exception|
+  #   flash[:warning] = exception.message
+  #   redirect_to_root
+  # end
 
   private
+
+  def redirect_to_root
+    (current_admin_user && namespace == "admin") ?
+      redirect_to(admin_root_url) : redirect_to(root_url)
+  end
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up) {|u| u.permit :name, :user_name,
@@ -34,9 +39,12 @@ class ApplicationController < ActionController::Base
   end
 
   def current_ability
+    Ability.new(current_user, namespace.camelize)
+  end
+
+  def namespace
     controller_name_segments = params[:controller].split("/")
     controller_name_segments.pop
-    controller_namespace = controller_name_segments.join("/").camelize
-    Ability.new(current_user, controller_namespace)
+    controller_name_segments.join("/")
   end
 end

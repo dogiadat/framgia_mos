@@ -1,4 +1,6 @@
 class Category < ActiveRecord::Base
+  ATTRIBUTES_ROLES = [:read, :create, :update, :destroy, :destroy_all]
+
   has_many :posts, dependent: :destroy
 
   validates :name, presence: true, uniqueness: true

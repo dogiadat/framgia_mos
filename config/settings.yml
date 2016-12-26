@@ -7,8 +7,8 @@ admin:
     per_page: 5
     normal_post: 0
     audio_post: 1
-    accept: "Accept"
-    reject: "Reject"
+    accept_post: "Accept"
+    reject_post: "Reject"
   advertisments:
     per_page: 5
   confessions:

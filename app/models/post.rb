@@ -1,4 +1,7 @@
 class Post < ActiveRecord::Base
+
+  ATTRIBUTES_ROLES = [:read, :create, :update, :destroy, :destroy_all]
+
   belongs_to :user
   belongs_to :category
   has_many :comments, dependent: :destroy
@@ -17,6 +20,8 @@ class Post < ActiveRecord::Base
   validates :image, presence: true
   validates :post_type, presence: true
   validate :validate_audio, on: :create
+
+  delegate :name, to: :category, prefix: true
 
   class << self
     def each_month year

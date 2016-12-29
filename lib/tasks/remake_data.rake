@@ -35,8 +35,7 @@ namespace :db do
 
       puts "Creating Categories"
 
-      ["radio online", "blog của tôi", "blog cuộc sống", "blogger tiêu biểu",
-        "thơ blog"].each do |name|
+      ["radio online", "blog của tôi", "blog cuộc sống", "thơ blog"].each do |name|
         Fabricate :category, name: name
       end
 

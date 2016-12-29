@@ -21,7 +21,8 @@ class Category < ActiveRecord::Base
   end
 
   def all_posts
-    Post.accepted.where category_id: ((self.leaves.to_a << self).map &:id)
+    Post.where(status: [:admin_create, :accepted])
+      .where category_id: ((self.leaves.to_a << self).map &:id)
   end
 
   private

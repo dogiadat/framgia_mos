@@ -29,12 +29,14 @@ class ApplicationController < ActionController::Base
   end
 
   def load_favourite_posts
-    @favourite_posts = Post.order(likes_count: :desc)
+    @favourite_posts = Post.where(status: [:admin_create, :accepted])
+      .order(likes_count: :desc)
       .limit Settings.static_pages.home.favourite_posts_size
   end
 
   def load_recent_posts
-    @recent_posts = Post.accepted.order(created_at: :desc).drop(1)
+    @recent_posts = Post.where(status: [:admin_create, :accepted])
+      .order(created_at: :desc).drop(1)
       .take Settings.static_pages.number_hot_posts
   end
 

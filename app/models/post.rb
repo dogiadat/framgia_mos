@@ -1,8 +1,8 @@
-require "elasticsearch/model"
+# require "elasticsearch/model"
 
 class Post < ActiveRecord::Base
-  include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
+  # include Elasticsearch::Model
+  # include Elasticsearch::Model::Callbacks
 
   ATTRIBUTES_ROLES = [:read, :create, :update, :destroy, :destroy_all]
 
@@ -44,21 +44,22 @@ class Post < ActiveRecord::Base
     end
 
     def posts_of_month month, year
-      Post.accepted.where("year(created_at) = #{year} and month(created_at) = #{month}").size
+      Post.where(status: [:admin_create, :accepted])
+        .where("year(created_at) = #{year} and month(created_at) = #{month}").size
     end
 
-    def elasticsearch query
-      __elasticsearch__.search(
-        {
-          query: {
-            multi_match: {
-              query: query,
-              fields: ["title^10", "content", "description", "author"]
-            }
-          }
-        }
-      )
-    end
+    # def elasticsearch query
+    #   __elasticsearch__.search(
+    #     {
+    #       query: {
+    #         multi_match: {
+    #           query: query,
+    #           fields: ["title^10", "content", "description", "author"]
+    #         }
+    #       }
+    #     }
+    #   )
+    # end
   end
 
 
@@ -84,9 +85,9 @@ class Post < ActiveRecord::Base
   end
 end
 
-Post.__elasticsearch__.client.indices.delete index: Post.index_name rescue nil
+# Post.__elasticsearch__.client.indices.delete index: Post.index_name rescue nil
 
-Post.__elasticsearch__.client.indices.create \
-  index: Post.index_name,
-  body: {settings: Post.settings.to_hash, mappings: Post.mappings.to_hash}
-Post.import
+# Post.__elasticsearch__.client.indices.create \
+#   index: Post.index_name,
+#   body: {settings: Post.settings.to_hash, mappings: Post.mappings.to_hash}
+# Post.import
